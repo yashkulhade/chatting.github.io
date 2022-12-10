@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+    <title>Chatting App</title>
+</head>
+
+<body>
+
+    <div id="popupper">
+        <div id="popup">
+            <!-- Online users -->
+
+        </div>
+    </div>
+
+    <div id="typing">
+        <h4 id="ts"></h4>
+    </div>
+
+    <div id="overlay">
+        <input type="text" placeholder="Fake name" name="name" id="n">
+        <button id="chat">Enter chat</button>
+    </div>
+
+    <div id="online">online:<span id="onn">0</span></div>
+    <div id="msg">
+
+    </div>
+    <textarea></textarea>
+    <button id="sss">Send Message</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js" integrity="sha512-/xb5+PNOA079FJkngKI2jvID5lyiqdHXaUUcfmzE0X0BdpkgzIWHC59LOG90a2jDcOyRsd1luOr24UCCAG8NNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var socket = io();
+        var username = "default";
+
+        function send() {
+            let svalue = document.querySelector("textarea").value;
+            let username = document.querySelector("#n").value;
+
+            if (svalue) {
+                var message = ('msg', {
+                    username: username,
+                    svalue: svalue
+                });
+            }
+            sendmessage(message, 'outgoing');
+            socket.emit('msg', message);
+
+        }
+
+        function sendmessage(msg, type) {
+            console.log("lskfkdshf", msg, type)
+            let maindiv = document.createElement('div');
+            let classname = type;
+            maindiv.classList.add(classname, 'message');
+
+            let c = `<div>${msg.username} : ${msg.svalue}</div>`;
+
+            maindiv.innerHTML = c;
+            document.querySelector("#msg").appendChild(maindiv);
+            document.querySelector("textarea").value = "";
+            var obj = document.querySelector("#msg");
+            obj.scrollTop = obj.scrollHeight;
+        }
+
+        document.querySelector("#sss").addEventListener('click', () => {
+            send();
+        })
+
+        socket.on('reply', (msgg) => {
+            sendmessage(msgg, 'incoming');
+            // document.querySelector("#msg").innerHTML += `<div class="m">${msgg.username} :  ${msgg.svalue}</div>\n`;
+        })
+
+        socket.on('ids', (m) => {
+            var k = m.length;
+            document.querySelector('#onn').textContent = k;
+        })
+
+        document.querySelector("textarea").addEventListener('keyup', (dets) => {
+            if (dets.keyCode === 13) {
+                send();
+            }
+        })
+
+        ///////////////////////********************ENTER THE CHAT***********************//////////////////////////////
+        document.querySelector('#chat').addEventListener('click', () => {
+            document.querySelector('#overlay').style.display = "none";
+            name = document.querySelector("#n").value;
+            socket.emit('bhejdonaam', (name));
+        })
+
+        document.querySelector('#n').addEventListener('keyup', (dets) => {
+                if (dets.keyCode === 13) {
+                    document.querySelector('#overlay').style.display = "none";
+                    name = document.querySelector("#n").value;
+                    socket.emit('bhejdonaam', (name));
+                }
+            })
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////******************TYPING WALA*****************////////////////////////////////////////
+        document.querySelector("textarea").addEventListener('input', (d) => {
+            username = document.querySelector("#n").value;
+            socket.emit('typingg', username);
+        })
+
+        socket.on("t", (data) => {
+                document.querySelector('h4').style.display = "initial";
+                document.querySelector('#ts').innerHTML = `${data} is typing`;
+                if (data) {
+                    setInterval(() => {
+                        document.querySelector('h4').style.display = "none";
+                    }, 3000);
+                }
+            })
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        //////////////////////////******************ONLINE WALA*****************////////////////////////////////// 
+        document.querySelector("#online").addEventListener('click', () => {
+            document.querySelector("#popupper").style.display = "initial";
+        })
+
+        socket.on('naam', (data) => {
+            let clutter = "";
+            data.forEach((one) => {
+                clutter += `<div id="popin">
+                <div id="left">
+                    <h3>${one}</h3>
+                    <h6>online</h6>
+                </div>
+                
+                <div id="right">
+                    <h3>Online</h3>
+                    <div id="onlinepoint"></div>
+                </div>
+            </div>
+            <hr>`
+            })
+            document.querySelector('#popup').innerHTML = clutter;
+            document.querySelector('#onn').textContent = data.length;
+        })
+
+        document.querySelector("#popupper").addEventListener('click', () => {
+                document.querySelector("#popupper").style.display = "none";
+            })
+            /////////////////////////////////////////////////////////////////////////////////////////////
+    </script>
+</body>
+
+</html>

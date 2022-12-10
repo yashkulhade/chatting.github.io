@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+#msg {
+    height: 67vh;
+    width: 100%;
+    background-color: bisque;
+    overflow: auto;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.m {
+    height: 10%;
+    width: 20rem;
+    background-color: rgb(62, 63, 63);
+    margin-top: 5px;
+    color: white;
+    text-transform: capitalize;
+}
+
+textarea {
+    margin-top: 10px;
+    height: 23vh;
+    width: 100%;
+    background-color: rgb(231, 230, 229);
+}
+
+button {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+
+#online {
+    z-index: 9;
+    height: 30px;
+    width: 100px;
+    background-color: green;
+    color: white;
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#overlay {
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: burlywood;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#chat {
+    position: absolute;
+    padding: 10px 10px;
+    width: 120px;
+    display: block;
+}
+
+#n {
+    padding: 10px 10px;
+}
+
+#typing {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#typing h4 {
+    display: none;
+}
+
+#popupper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    display: none;
+    /* background-color: aqua; */
+}
+
+#popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 56%;
+    width: 30%;
+    background-color: rgb(240, 235, 235);
+    border-radius: 5px;
+    overflow: auto;
+    padding: 0px 15px;
+}
+
+#popin {
+    height: 15%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#popin h3 {
+    margin-top: 10px;
+}
+
+#online:hover {
+    cursor: pointer;
+}
+
+#left {
+    /* background-color: blue; */
+}
+
+#right {
+    position: relative;
+    color: green;
+    /* background-color: aqua; */
+}
+
+#onlinepoint {
+    position: absolute;
+    top: 75%;
+    right: 23%;
+    transform: translate(-50%, -50%);
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.outgoing {
+    margin-left: auto;
+}
+
+.message {
+    width: 25rem;
+    padding: 20px;
+    background-color: blue;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.incoming {
+    background-color: rgb(248, 176, 87);
+    color: #3E3F3F;
+}
+
+.outgoing {
+    background-color: #3E3F3F;
+    color: rgb(250, 204, 134);
+}
